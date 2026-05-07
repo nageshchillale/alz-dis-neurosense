@@ -1,0 +1,240 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+const resources = {
+  mr: {
+    translation: {
+      "nav": {
+        "platform": "प्लॅटफॉर्म",
+        "screening": "तपासणी",
+        "dashboard": "डॅशबोर्ड",
+        "login": "लॉग इन",
+        "signup": "साइन अप",
+        "logout": "बाहेर पडा",
+        "hello": "नमस्कार"
+      },
+      "landing": {
+        "hero_badge": "न्यूरल AI द्वारे समर्थित",
+        "hero_title": "लवकर संज्ञानात्मक",
+        "hero_subtitle": "जोखीम तपासणी",
+        "hero_desc": "वैज्ञानिकदृष्ट्या सिद्ध केलेल्या गेम आणि मल्टी-मोडल AI विश्लेषणाद्वारे मेंदूच्या आरोग्याचे सक्रियपणे निरीक्षण करा.",
+        "start_btn": "तपासणी सुरू करा",
+        "explore_btn": "प्लॅटफॉर्म पहा",
+        "features_title": "आरोग्य विश्लेषण",
+        "features_desc": "सुंदर आणि परस्परसंवादी अनुभवांद्वारे केलेली प्रगत न्यूरोलॉजिकल तपासणी.",
+        "feat1_title": "AI मेमरी असिस्टंट",
+        "feat1_desc": "दैनंदिन कामकाजातील सूक्ष्म वर्तणुकीच्या संकेतांद्वारे मेमरी ट्रॅकिंग.",
+        "feat2_title": "मेंदूचे खेळ",
+        "feat2_desc": "ओळख, प्रतिक्रिया आणि नमुना ओळखण्याची चाचणी घेण्यासाठी क्लिनिकल डिझाइन केलेले गेम्स.",
+        "feat3_title": "केअरगिव्हर मॉनिटरिंग",
+        "feat3_desc": "कुटुंब आणि डॉक्टरांसाठी रिअल-टाइम डॅशबोर्ड."
+      },
+      "auth": {
+        "welcome_back": "स्वागत आहे",
+        "login_desc": "तुमच्या मेंदूच्या आरोग्य डॅशबोर्डवर सुरक्षितपणे प्रवेश करा.",
+        "create_account": "खाते तयार करा",
+        "signup_desc": "सक्रिय मेंदू आरोग्य मॉनिटरींग नेटवर्कमध्ये सामील व्हा.",
+        "username": "वापरकर्तानाव",
+        "email": "ईमेल",
+        "password": "पासवर्ड",
+        "account_type": "खात्याचा प्रकार",
+        "patient": "रुग्ण",
+        "caregiver": "केअरगिव्हर",
+        "login_btn": "पुढील",
+        "signup_btn": "खाते तयार करा",
+        "no_acc": "खाते नाही का?",
+        "have_acc": "आधीच खाते आहे का?"
+      },
+      "assessment": {
+        "step": "प्रश्न {{current}} पैकी {{total}}",
+        "completed": "पूर्ण झाले",
+        "next": "पुढील पाऊल",
+        "analyze": "निकाल पहा",
+        "analyzing": "विश्लेषण करत आहे...",
+        "memorize_task": "हे शब्द लक्षात ठेवण्यासाठी वेळ घ्या...",
+        "complete_title": "तपासणी पूर्ण झाली",
+        "complete_desc": "तुमच्या संज्ञानात्मक मेट्रिक्सचे सुरक्षितपणे विश्लेषण केले गेले आहे.",
+        "risk_indicator": "जोखीम निर्देशांक",
+        "view_dash": "तपशीलवार डॅशबोर्ड पहा",
+        "q_year": "सध्या कोणते वर्ष चालू आहे?",
+        "q_memorize": "कृपया हे तीन शब्द लक्षात ठेवा: सफरचंद, मेज, नाणे.",
+        "q_pattern": "या क्रमाने पुढचा आकार कोणता येईल: ◯ △ ◯ △ __?",
+        "q_recall": "तुम्हाला आधी कोणते तीन शब्द लक्षात ठेवण्यास सांगितले होते?",
+        "ans_recall": "सफरचंद, मेज, नाणे",
+        "recall_wrong1": "सफरचंद, खुर्ची, घडी",
+        "recall_wrong2": "संत्रा, मेज, नाणी",
+        "recall_wrong3": "आपल्याला आठवत नाही",
+        "q_1": "सध्या कोणते वर्ष चालू आहे?",
+        "q_2": "कृपया या शब्दांना लक्षात ठेवा.",
+        "q_3": "या पॅटर्नमध्ये पुढचा वस्तू ओळखा.",
+        "q_4": "आधीचे शब्द कोणते होते?",
+        "q_5": "खालील रंगांमधून हिरवा कोणता आहे?",
+        "q_6": "आज आठवडा कोणता दिवस आहे?",
+        "q_7": "या अनुक्रमणाचे पुढचे आयटम कोणते आहे?",
+        "q_8": "कृपया हे तीन शब्द लक्षात ठेवा.",
+        "q_9": "आठवणीतील प्रश्न — आधीचे शब्द कोणते होते?",
+        "q_10": "अंक ओळखा",
+        "q_11": "आपण आता कोणत्या प्रकारच्या ठिकाणी आहात?",
+        "q_12": "या पॅटर्नमध्ये योग्य क्रम कोणता आहे?",
+        "q_13": "लक्षात ठेवा: तीन वस्तू",
+        "q_14": "लक्षात ठेवलेले तीन शब्द कोणते होते?",
+        "q_15": "दिशा निवडा",
+        "q_16": "सकाळ आहे की दुपारी?",
+        "q_17": "या पॅटर्नमधून योग्य पर्याय निवडा",
+        "q_18": "लक्षात ठेवा: तीन वस्तू",
+        "q_19": "लक्षात ठेवलेले शब्द कोणते होते?",
+        "q_20": "योग्य पर्याय निवडा",
+        "ans_recall2": "केळी, खुर्ची, घडी",
+        "ans_recall3": "कुत्रा, पेन, बाटली",
+        "ans_recall4": "सूर्य, पुस्तक, की",
+        "days": { "monday": "सोमवार", "tuesday": "मंगळवार", "wednesday": "बुधवार", "thursday": "गुरुवार" },
+        "places": { "city": "शहर", "village": "गाव", "town": "टाउन", "suburb": "उपनगर" },
+        "dirs": { "left": "डावे", "right": "उजवे", "up": "वर", "down": "खाली" }
+      },
+      "dashboard": {
+        "title": "कॉग्निटिव्ह इकोसिस्टम",
+        "desc": "दीर्घकालीन विश्लेषण आणि रिअल-टाइम मेंदू आरोग्य मॉनिटरिंग.",
+        "gen_report": "रिपोर्ट तयार करा",
+        "new_assessment": "नवीन तपासणी",
+        "risk_index": "सध्याचा जोखीम निर्देशांक",
+        "memory_score": "मेमरी स्कोअर",
+        "processing_speed": "प्रोसेसिंग वेग",
+        "last_screening": "शेवटची तपासणी",
+        "trajectory": "प्रगती विश्लेषण",
+        "neural_sig": "न्यूरल स्वाक्षरी",
+        "wellness_insight": "AI वेलनेस इनसाईट",
+        "low": "कमी",
+        "moderate": "मध्यम",
+        "high": "जास्त",
+        "improvement": "सुधारणा",
+        "stable": "स्थिर",
+        "today": "आज"
+      }
+    }
+  },
+  en: {
+    translation: {
+      "nav": {
+        "platform": "Platform",
+        "screening": "Screening",
+        "dashboard": "Dashboard",
+        "login": "Log In",
+        "signup": "Sign Up",
+        "logout": "Logout",
+        "hello": "Hello"
+      },
+      "landing": {
+        "hero_badge": "Powered by Neural AI",
+        "hero_title": "Early Cognitive",
+        "hero_subtitle": "Risk Screening",
+        "hero_desc": "Proactively monitor brain health with scientifically-backed gamified assessments and multi-modal AI analytics.",
+        "start_btn": "Start Screening",
+        "explore_btn": "Explore Platform",
+        "features_title": "Cinematic Health Analytics",
+        "features_desc": "Advanced neurological screening disguised as beautiful interactive experiences.",
+        "feat1_title": "AI Memory Assistant",
+        "feat1_desc": "Continuous implicit memory tracking throughout your daily routines.",
+        "feat2_title": "Brain Games",
+        "feat2_desc": "Clinically designed loops that test orientation, reaction, and pattern recognition.",
+        "feat3_title": "Caregiver Monitoring",
+        "feat3_desc": "Secure, real-time dashboards for family and physicians."
+      },
+      "auth": {
+        "welcome_back": "Welcome Back",
+        "login_desc": "Securely access your brain health dashboard.",
+        "create_account": "Create Account",
+        "signup_desc": "Join the network of proactive brain health monitoring.",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "account_type": "Account Type",
+        "patient": "Patient",
+        "caregiver": "Caregiver",
+        "login_btn": "Continue",
+        "signup_btn": "Create Account",
+        "no_acc": "Don't have an account?",
+        "have_acc": "Already have an account?"
+      },
+      "assessment": {
+        "step": "Question {{current}} of {{total}}",
+        "completed": "Completed",
+        "next": "Next Step",
+        "analyze": "Analyze Results",
+        "analyzing": "Analyzing...",
+        "memorize_task": "Take your time to memorize...",
+        "complete_title": "Screening Complete",
+        "complete_desc": "Your cognitive metrics have been analyzed safely and securely.",
+        "risk_indicator": "Risk Assessment Indicator",
+        "view_dash": "View Detailed Analytics Dashboard",
+        "q_year": "What year are we in currently?",
+        "q_memorize": "Please memorize these three words: Apple, Table, Coin.",
+        "q_pattern": "Which shape comes next in the sequence: ◯ △ ◯ △ __?",
+        "q_recall": "What were the three words you were asked to memorize earlier?",
+        "ans_recall": "Apple, Table, Coin",
+        "recall_wrong1": "Apple, Chair, Clock",
+        "recall_wrong2": "Orange, Table, Coins",
+        "recall_wrong3": "I don't remember",
+        "q_1": "What year are we in currently?",
+        "q_2": "Please memorize these words.",
+        "q_3": "Identify the next item in the pattern.",
+        "q_4": "Which words were shown earlier?",
+        "q_5": "Which of the following is green?",
+        "q_6": "Which weekday is it today?",
+        "q_7": "Which comes next in this sequence?",
+        "q_8": "Please memorize these three words.",
+        "q_9": "Memory recall — which words were shown earlier?",
+        "q_10": "Identify the number",
+        "q_11": "What type of place are you in now?",
+        "q_12": "Which sequence is correct?",
+        "q_13": "Memorize three items",
+        "q_14": "Which three items did you memorize?",
+        "q_15": "Choose a direction",
+        "q_16": "Is it AM or PM?",
+        "q_17": "Select the correct pattern option",
+        "q_18": "Memorize three items",
+        "q_19": "Which items did you memorize?",
+        "q_20": "Pick the correct option",
+        "ans_recall2": "Banana, Chair, Clock",
+        "ans_recall3": "Dog, Pen, Bottle",
+        "ans_recall4": "Sun, Book, Key",
+        "days": { "monday": "Monday", "tuesday": "Tuesday", "wednesday": "Wednesday", "thursday": "Thursday" },
+        "places": { "city": "City", "village": "Village", "town": "Town", "suburb": "Suburb" },
+        "dirs": { "left": "Left", "right": "Right", "up": "Up", "down": "Down" }
+      },
+      "dashboard": {
+        "title": "Cognitive Ecosystem",
+        "desc": "Longitudinal analytics and real-time brain health monitoring.",
+        "gen_report": "Generate Report",
+        "new_assessment": "New Assessment",
+        "risk_index": "Current Risk Index",
+        "memory_score": "Memory Score",
+        "processing_speed": "Processing Speed",
+        "last_screening": "Last Screening",
+        "trajectory": "Trajectory Analysis",
+        "neural_sig": "Neural Signature",
+        "wellness_insight": "AI Wellness Insight",
+        "low": "Low",
+        "moderate": "Moderate",
+        "high": "High",
+        "improvement": "improvement",
+        "stable": "Stable",
+        "today": "Today"
+      }
+    }
+  }
+};
+
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources,
+    fallbackLng: 'mr', // Default to Marathi
+    debug: false,
+    interpolation: {
+      escapeValue: false, // React already safes from xss
+    }
+  });
+
+export default i18n;

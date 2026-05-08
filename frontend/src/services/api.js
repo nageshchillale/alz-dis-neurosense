@@ -103,7 +103,7 @@ const apiRequest = async (
 
 export const loginUser = async (credentials) => {
   const data = await apiRequest(
-    '/auth/login/',
+    '/api/auth/login/',
     'POST',
     credentials,
     false
@@ -123,7 +123,7 @@ export const loginUser = async (credentials) => {
 
 export const registerUser = async (userData) => {
   return apiRequest(
-    '/auth/register/',
+    '/api/auth/register/',
     'POST',
     userData,
     false
@@ -142,7 +142,7 @@ export const logoutUser = () => {
 
 export const submitAssessment = async (data) => {
   return apiRequest(
-    '/assessments/',
+    '/api/assessments/',
     'POST',
     data
   );
@@ -150,7 +150,7 @@ export const submitAssessment = async (data) => {
 
 
 export const fetchAssessments = async () => {
-  return apiRequest('/assessments/');
+  return apiRequest('/api/assessments/');
 };
 
 
@@ -159,10 +159,10 @@ export const fetchAssessments = async () => {
 // =========================
 
 export const fetchTrends = async () => {
-  return apiRequest('/trends/');
+  return apiRequest('/api/trends/');
 };
 
 
 export const fetchDashboardAnalytics = async () => {
-  return apiRequest('/dashboard-analytics/');
+  return apiRequest('/api/dashboard-analytics/');
 };

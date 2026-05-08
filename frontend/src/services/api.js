@@ -1,7 +1,13 @@
-const API_URL = 'http://localhost:8000/api';
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  'https://alz-dis-backend.onrender.com';
+
+
+// =========================
+// TOKEN HELPERS
+// =========================
 
 const getToken = () => {
-  // Try multiple possible keys
   return (
     localStorage.getItem('access_token') ||
     localStorage.getItem('access') ||
@@ -9,42 +15,100 @@ const getToken = () => {
   );
 };
 
+const clearTokens = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('access');
+  localStorage.removeItem('token');
+};
+
+
+// =========================
+// HEADERS
+// =========================
+
 const getHeaders = () => {
   const token = getToken();
-
-  console.log("JWT TOKEN:", token);
 
   return {
     'Content-Type': 'application/json',
     ...(token
-      ? { Authorization: `Bearer ${token}` }
+      ? {
+          Authorization: `Bearer ${token}`,
+        }
       : {}),
   };
 };
 
+
+// =========================
+// RESPONSE HANDLER
+// =========================
+
 const handleResponse = async (response) => {
-  const data = await response.json().catch(() => ({}));
+  let data = {};
+
+  try {
+    data = await response.json();
+  } catch (error) {
+    console.error('JSON Parse Error:', error);
+  }
 
   if (!response.ok) {
-    console.error("API ERROR:", data);
-    throw new Error(data.detail || data.message || 'API Error');
+    console.error('API ERROR:', data);
+
+    // Auto logout if unauthorized
+    if (response.status === 401) {
+      clearTokens();
+    }
+
+    throw new Error(
+      data.detail ||
+      data.message ||
+      'Something went wrong'
+    );
   }
 
   return data;
 };
 
-export const loginUser = async (credentials) => {
-  const response = await fetch(`${API_URL}/auth/login/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials),
+
+// =========================
+// GENERIC REQUEST FUNCTION
+// =========================
+
+const apiRequest = async (
+  endpoint,
+  method = 'GET',
+  body = null,
+  requiresAuth = true
+) => {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    method,
+    headers: requiresAuth
+      ? getHeaders()
+      : {
+          'Content-Type': 'application/json',
+        },
+    ...(body ? { body: JSON.stringify(body) } : {}),
   });
 
-  const data = await handleResponse(response);
+  return handleResponse(response);
+};
 
-  // Save token properly
+
+// =========================
+// AUTH APIs
+// =========================
+
+export const loginUser = async (credentials) => {
+  const data = await apiRequest(
+    '/auth/login/',
+    'POST',
+    credentials,
+    false
+  );
+
   if (data.access) {
     localStorage.setItem('access_token', data.access);
   }
@@ -56,48 +120,49 @@ export const loginUser = async (credentials) => {
   return data;
 };
 
-export const registerUser = async (userData) => {
-  const response = await fetch(`${API_URL}/auth/register/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
 
-  return handleResponse(response);
+export const registerUser = async (userData) => {
+  return apiRequest(
+    '/auth/register/',
+    'POST',
+    userData,
+    false
+  );
 };
+
+
+export const logoutUser = () => {
+  clearTokens();
+};
+
+
+// =========================
+// ASSESSMENTS
+// =========================
 
 export const submitAssessment = async (data) => {
-  const response = await fetch(`${API_URL}/assessments/`, {
-    method: 'POST',
-    headers: getHeaders(),
-    body: JSON.stringify(data),
-  });
-
-  return handleResponse(response);
+  return apiRequest(
+    '/assessments/',
+    'POST',
+    data
+  );
 };
 
-export const fetchTrends = async () => {
-  const response = await fetch(`${API_URL}/trends/`, {
-    headers: getHeaders(),
-  });
-
-  return handleResponse(response);
-};
 
 export const fetchAssessments = async () => {
-  const response = await fetch(`${API_URL}/assessments/`, {
-    headers: getHeaders(),
-  });
-
-  return handleResponse(response);
+  return apiRequest('/assessments/');
 };
 
-export const fetchDashboardAnalytics = async () => {
-  const response = await fetch(`${API_URL}/dashboard-analytics/`, {
-    headers: getHeaders(),
-  });
 
-  return handleResponse(response);
+// =========================
+// ANALYTICS
+// =========================
+
+export const fetchTrends = async () => {
+  return apiRequest('/trends/');
+};
+
+
+export const fetchDashboardAnalytics = async () => {
+  return apiRequest('/dashboard-analytics/');
 };
